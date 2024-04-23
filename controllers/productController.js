@@ -1,40 +1,68 @@
-
 const Product = require('../models/Product');
 
-let products = [
-    new Product('Ordinateur portable', 1200, 'Un ordinateur portable puissant avec un processeur rapide.', 'Électronique', 10, 'laptop.jpg'),
-    new Product('T-shirt noir', 25, 'Un t-shirt noir de haute qualité.', 'Vêtements', 50, 'tshirt.jpg')
-];
-
-const productList = (req, res) => {
-    res.render('productList', { products: products });
+exports.getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.render('products/products-list', { products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 };
 
-const productDetails = (req, res) => {
-    const productId = req.params.id;
-    const product = products.find(product => product.id === productId);
-    if (!product) {
-        return res.status(404).send('Produit non trouvé');
-    }
-    res.render('productDetails', { product: product });
+exports.getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.render('products/product-details', { product });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 };
 
-const addProduct = (req, res) => {
-    const { name, price, description, category, quantity, imageURL } = req.body;
-    const newProduct = new Product(name, price, description, category, quantity, imageURL);
-    products.push(newProduct);
+exports.getProductEditPageById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.render('products/edit-product', { product });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.createProduct = async (req, res) => {
+  try {
+    const { name, description, price } = req.body;
+    const newProduct = new Product({ name, description, price });
+    await newProduct.save();
     res.redirect('/products');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 };
 
-const deleteProduct = (req, res) => {
-    const productId = req.params.id;
-    products = products.filter(product => product.id !== productId);
+exports.updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, price } = req.body;
+    await Product.findByIdAndUpdate(id, { name, description, price });
     res.redirect('/products');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 };
 
-module.exports = {
-    productList,
-    productDetails,
-    addProduct,
-    deleteProduct
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.redirect('/products');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 };

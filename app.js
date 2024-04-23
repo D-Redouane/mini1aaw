@@ -1,57 +1,27 @@
-// Importation des modules nécessaires
+// app.js
 const express = require('express');
+const mongoose = require('mongoose');
+const routes = require('./routes/routes'); // Import the routes
+
 const app = express();
-const ejs = require('ejs');
-const productController = require('./controllers/productController'); // Importation des fonctions de contrôleur
 
-// Configuration d'Express.js pour utiliser EJS comme moteur de template
+// Connect to MongoDB
+mongoose.connect('mongodb://127.0.0.1:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error(err));
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+
+// Use the routes
+app.use(routes);
+
+// Set view engine
 app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-// Configuration d'Express.js pour servir les fichiers statiques depuis le répertoire 'public'
-app.use(express.static('public'));
-
-// Routes pour les actions liées aux produits
-
-// Route pour la page d'accueil
-app.get('/', (req, res) => {
-    res.render('home'); // Rendre la vue home.ejs pour la page d'accueil
-});
-
-
-// Route pour afficher la liste des produits
-app.get('/products', productController.productList);
-
-// Route pour afficher les détails d'un produit
-app.get('/products/:id', productController.productDetails);
-
-// Route pour ajouter un nouveau produit (formulaire)
-app.get('/products/add', (req, res) => {
-    res.render('addProduct'); // Afficher le formulaire pour ajouter un nouveau produit
-});
-
-// Route pour traiter la soumission du formulaire pour ajouter un nouveau produit
-app.post('/products/add', productController.addProduct);
-
-// Route pour supprimer un produit
-app.delete('/products/:id/delete', productController.deleteProduct);
-
-// Route pour l'interface de l'utilisateur standard
-app.get('/standardUser', (req, res) => {
-    // Rendre la vue correspondante pour l'utilisateur standard
-    res.render('standardUser');
-});
-
-// Route pour l'interface de l'administrateur
-app.get('/adminUser', (req, res) => {
-    // Rendre la vue correspondante pour l'administrateur
-    res.render('adminUser');
-});
-
-// Démarrer le serveur
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Le serveur est démarré sur le port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
-// Exporter l'application Express.js pour pouvoir l'utiliser dans d'autres fichiers
-module.exports = app;
