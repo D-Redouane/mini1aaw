@@ -2,13 +2,27 @@ const express = require('express');
 const routes = express.Router();
 const userController = require('../controllers/userController');
 const productController = require('../controllers/productController');
+const adminController = require('../controllers/adminController');
+
 
 routes.get('/', (req, res) => {
   res.render('index');
 });
 
+routes.get('/login', (req, res) => {
+  res.render('auth/login');
+});
+
+routes.post('/login', userController.loginUser);
+
 routes.get('/users', userController.getAllUsers);
 routes.post('/users', userController.createUser);
+
+routes.get('/admin', adminController.getAdminPage);
+
+
+
+
 
 routes.get('/products', productController.getAllProducts);
 routes.get('/products/new', (req, res) => {

@@ -4,6 +4,7 @@
     "description": "A simple REST API using Node.js, MVC and MongoDB",
     "main": "app.js",
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "body-parser": "^1.19.0",
         "ejs": "^3.1.10",
         "express": "^4.17.1",
