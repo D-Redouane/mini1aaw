@@ -13,8 +13,8 @@ exports.getAdminPage = (req, res, next) => {
 
   // Check if token exists
   if (!token) {
-    // res.redirect('/login');
-    return res.status(401).json({ error: "Unauthorized1" });
+    res.redirect('/login');
+    // return res.status(401).json({ error: "Unauthorized1" });
   }
 
   try {
@@ -28,6 +28,7 @@ exports.getAdminPage = (req, res, next) => {
     res.render('admin/index'); 
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Unauthorized2"+err.message });
+    res.redirect('/login');
+    // return res.status(401).json({ error: "Unauthorized2"+err.message });
   }
 };

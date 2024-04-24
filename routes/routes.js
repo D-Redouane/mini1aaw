@@ -12,11 +12,15 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/logout', (req, res) => {
-  res.clearCookie('user');
+  res.clearCookie("token"); // Clear the token cookie
   res.redirect('/login');
 });
 routes.get('/login', (req, res) => {
   res.render('auth/login');
+});
+
+routes.get('/client', (req, res) => {
+  res.render('others/clientindex');
 });
 
 routes.post(

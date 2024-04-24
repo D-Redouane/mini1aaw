@@ -39,11 +39,11 @@ exports.loginUser = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
     });
     
-    // res.redirect("/"); // Redirect to homepage after successful login
+    res.redirect("/"); // Redirect to homepage after successful login
     // res.status(200).json({ message: "Login successful" });
     
     //use next to go to the desired page
-    next();
+    // next();
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json({ error: "Server Error" });
