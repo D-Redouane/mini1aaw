@@ -46,12 +46,13 @@ routes.get("/products/new", isAuthenticated.isAuthenticated, (req, res) => {
   res.render("products/new-product");
 });
 
-routes.get("/products/:id", productController.getProductById);
+routes.get("/products/:id" ,productController.getProductById);
 
-routes.post("/products/new",productController.createProduct);
+routes.post("/products/new", isAuthenticated.isAuthenticated ,productController.createProduct);
 
 routes.get(
   "/products/:id/edit",
+  isAuthenticated.isAuthenticated,
   productController.getProductEditPageById
 );
 
