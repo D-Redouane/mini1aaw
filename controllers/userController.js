@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -17,14 +18,14 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password, age } = req.body;
+    const { name, email, password, age,role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
-    const newUser = new User({ name, email, password: hashedPassword, age });
+    const newUser = new User({ name, email, password: hashedPassword, age,role });
     await newUser.save();
     res.redirect("/users");
   } catch (err) {
     console.error("Error creating user:", err);
-    res.status(500).json({ error: "Server Error7" });
+    res.status(500).json({ error: "Server Error7"+err.message });
   }
 };
 
@@ -64,3 +65,43 @@ exports.createjwt = async function (req, res) {
   // Optionally, you can also send the JWT as a response
   res.json({ jwt: token });
 };
+
+
+exports.getUserEditPageById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.render('users/user-edit', { user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { name, email, age, password } = req.body;
+    let updateData = { name, email, age };
+
+    // Check if password is provided and hash it if necessary
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash password
+      updateData.password = hashedPassword; // Set hashed password
+    }
+
+    await User.findByIdAndUpdate(req.params.id, updateData);
+    res.redirect('/users');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.redirect('/users');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+}

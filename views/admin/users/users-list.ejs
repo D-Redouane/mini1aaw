@@ -13,6 +13,14 @@
         }
 
         body {
+            background-image: url('https://img.freepik.com/premium-photo/blur-background-delivery-product-van-infront-home-shipping-goods-e-commerce-concept_7189-2292.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        body {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -32,11 +40,20 @@
             <div class="mb-3">
                 <input type="number" name="age" class="form-control" placeholder="Age" required>
             </div>
+            <div class="mb-3">
+                <select name="role" class="form-control" required>
+                    <option value="manager">Manager</option>
+                    <option value="client">Client</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
             <button type="submit" class="btn btn-primary">Add User</button>
         </form>
 
         <br><br><br><br>
-      
+    
         <h1>User List</h1>
         <table class="table">
             <thead>
@@ -44,6 +61,8 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Age</th>
+                    <th>Role</th>
+                    <th>Action</th> <!-- Add Action column for delete and edit buttons -->
                 </tr>
             </thead>
             <tbody>
@@ -52,11 +71,18 @@
                     <td><%= user.name %></td>
                     <td><%= user.email %></td>
                     <td><%= user.age %></td>
+                    <td><%= user.role %></td>
+                    <td>
+                        <form action="/users/<%= user._id %>/delete" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <a href="/users/<%= user._id %>/edit" class="btn btn-primary">Edit</a>
+                    </td>
                 </tr>
                 <% }); %>
             </tbody>
         </table>
-        
+            
 
         
     </div>

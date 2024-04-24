@@ -6,22 +6,56 @@
     <title>Product List</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: url('https://tutorialsbackend.bluehost.in/wp-content/uploads/2022/05/Facebook-The-Easy-Way-To-Run-Your-Ecommerce-Business-With-Affordable-Wordpress-Hosting.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Applying blur and transparency to the card's body */
+        .card {
+            background: rgba(122, 121, 121, 0.7); /* Semi-transparent white background */
+            backdrop-filter: blur(15px); /* Apply blur to the background behind the card */
+            border: none; /* No border to keep it clean */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="mb-4">
-            <h1>Product List</h1>
-        </header>
-        <main>
-            <ul class="list-group">
-                <% products.forEach(product => { %>
-                <li class="list-group-item"><a href="/products/<%= product._id %>"><%= product.name %></a></li>
-                <% }); %>
-            </ul>
-        </main>
-        <nav class="mt-4">
-            <a href="/products/new" class="btn btn-primary">Add Product</a>
-        </nav>
+<div class="container">
+    <div class="card">
+        <div class="card-body" style="width: 500px;">
+            <h5 class="card-title">Product List</h5>
+            <main>
+                <ul class="list-group">
+                    <% products.forEach(product => { %>
+                    <li class="list-group-item m-2 p-2"><a href="/products/<%= product._id %>"><%= product.name %></a></li>
+                    <% }); %>
+                </ul>
+            </main>
+            <nav class="mt-4">
+                <a href="/products/new" class="btn btn-primary">Add Product</a>
+            </nav>
+        </div>
     </div>
+</div>
+
 </body>
 </html>
+

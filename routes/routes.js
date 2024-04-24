@@ -32,6 +32,10 @@ routes.post(
 routes.get("/users", isAuthenticated.isAuthenticated, userController.getAllUsers);
 routes.post("/users", isAuthenticated.isAuthenticated, userController.createUser);
 
+routes.get('/users/:id/edit', isAuthenticated.isAuthenticated, userController.getUserEditPageById);
+routes.post('/users/:id', isAuthenticated.isAuthenticated ,userController.updateUser);
+routes.post('/users/:id/delete', isAuthenticated.isAuthenticated ,userController.deleteUser);
+
 routes.get("/jwt", userController.createjwt);
 
 
