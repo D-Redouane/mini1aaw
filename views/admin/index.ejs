@@ -15,14 +15,20 @@
             height: 100vh;
             margin: 0;
         }
+        .logout-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body class="d-flex justify-content-center align-items-center">
     <div class="text-center bg-light p-4 rounded">
         <h1>Bienvenue sur notre site !</h1>
         <p>Choisissez votre type d'utilisateur :</p>
-        <a href="/admin" class="btn btn-primary m-2">Administrateur</a>
-        <a href="/client" class="btn btn-secondary m-2">Utilisateur standard</a>
+        <a href="/users" class="btn btn-primary m-2">Manager Utilisateru</a>
+        <a href="/products" class="btn btn-secondary m-2">Manager produits</a>
     </div>
+    <a href="/logout" class="btn btn-danger logout-button">Logout</a>
 </body>
 </html>

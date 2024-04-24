@@ -3,7 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes'); // Import the routes
 
+
 const app = express();
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true })

@@ -1,48 +1,62 @@
-const express = require('express');
+const express = require("express");
 const routes = express.Router();
-const userController = require('../controllers/userController');
-const productController = require('../controllers/productController');
-const adminController = require('../controllers/adminController');
-
-const isAuthenticated = (req, res, next) => {
-  const userId = req.cookies;
-  console.log(req) // Get the user ID from cookies
-  if (userId) {
-    req.user = { id: userId }; // Store the user ID in the request object
-    return next(); // Proceed to the next middleware
-  }
-  // res.redirect('/login'); // If not authenticated, redirect to login
-};
-
+const userController = require("../controllers/userController");
+const productController = require("../controllers/productController");
+const adminController = require("../controllers/adminController");
+const authController = require("../controllers/authController");
+const { body, validationResult } = require("express-validator");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
 routes.get('/', (req, res) => {
   res.render('index');
 });
 
+routes.get('/logout', (req, res) => {
+  res.clearCookie('user');
+  res.redirect('/login');
+});
 routes.get('/login', (req, res) => {
   res.render('auth/login');
 });
 
-routes.post('/login', userController.loginUser);
+routes.post(
+  "/login",
+  [body("email").isEmail(), body("password").isLength({ min: 4 })],
+  authController.loginUser
+);
 
-routes.get('/users', isAuthenticated ,userController.getAllUsers);
-routes.post('/users',isAuthenticated, userController.createUser);
+routes.get("/users", isAuthenticated.isAuthenticated, userController.getAllUsers);
+routes.post("/users", isAuthenticated.isAuthenticated, userController.createUser);
 
-routes.get('/admin', isAuthenticated, adminController.getAdminPage);
-
-
+routes.get("/jwt", userController.createjwt);
 
 
+routes.get("/admin", isAuthenticated.isAuthenticated, adminController.getAdminPage);
 
-routes.get('/products', productController.getAllProducts);
-routes.get('/products/new',isAuthenticated, (req, res) => {
-  res.render('products/new-product');
+routes.get("/products", productController.getAllProducts);
+routes.get("/products/new", isAuthenticated.isAuthenticated, (req, res) => {
+  res.render("products/new-product");
 });
-routes.post('/products/create', isAuthenticated , productController.createProduct);
 
-routes.get('/products/:id', productController.getProductById);
-routes.get('/products/:id/edit', isAuthenticated , productController.getProductEditPageById);
-routes.post('/products/:id', isAuthenticated ,productController.updateProduct);
-routes.post('/products/:id/delete', isAuthenticated ,productController.deleteProduct);
+routes.get("/products/:id", productController.getProductById);
+
+routes.post("/products/new",productController.createProduct);
+
+routes.get(
+  "/products/:id/edit",
+  productController.getProductEditPageById
+);
+
+routes.post(
+  "/products/:id",
+  isAuthenticated.isAuthenticated,
+  productController.updateProduct
+);
+
+routes.post(
+  "/products/:id/delete",
+  isAuthenticated.isAuthenticated,
+  productController.deleteProduct
+);
 
 module.exports = routes;

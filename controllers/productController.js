@@ -1,4 +1,4 @@
-const Product = require('../models/Product');
+const Product = require('../models/product');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -6,7 +6,7 @@ exports.getAllProducts = async (req, res) => {
     res.render('products/products-list', { products });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error1');
   }
 };
 
@@ -17,7 +17,7 @@ exports.getProductById = async (req, res) => {
     res.render('products/product-details', { product });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error2');
   }
 };
 
@@ -28,7 +28,7 @@ exports.getProductEditPageById = async (req, res) => {
     res.render('products/edit-product', { product });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error3');
   }
 };
 
@@ -39,8 +39,8 @@ exports.createProduct = async (req, res) => {
     await newProduct.save();
     res.redirect('/products');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
+    // console.error(err);
+    res.status(500).send('Server Error4'+err.message);
   }
 };
 
@@ -52,7 +52,7 @@ exports.updateProduct = async (req, res) => {
     res.redirect('/products');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error5');
   }
 };
 
@@ -63,6 +63,6 @@ exports.deleteProduct = async (req, res) => {
     res.redirect('/products');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error6');
   }
 };
