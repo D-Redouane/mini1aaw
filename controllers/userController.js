@@ -70,7 +70,7 @@ exports.createjwt = async function (req, res) {
 exports.getUserEditPageById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.render('users/user-edit', { user });
+    res.render('admin/users/user-edit', { user });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
