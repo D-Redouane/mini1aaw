@@ -45,7 +45,7 @@ mvcproject/
 
 ## How to Use
 
-1. Clone this repository to your local machine with `git clone <repo-url>`.
+1. Clone this repository to your local machine with `git clone https://github.com/D-Redouane/mini1aaw.git`.
 2. Install the dependencies using `npm install`.
 3. Ensure MongoDB is running on your system.
 4. Create a `.env` file in the root directory with environment variables (e.g., MongoDB URI, server port).
